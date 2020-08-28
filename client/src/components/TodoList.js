@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { ListGroup, ListGroupItem, Button, Form, Input, FormGroup } from 'reactstrap';
-import { v4 as uuidv4 } from 'uuid';
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 class TodoList extends Component {
 
@@ -26,23 +26,24 @@ class TodoList extends Component {
     event.preventDefault();
 
     if(this.state.name){
-        this.setState(state => ({
-            todos: [ {_id: uuidv4(), name: this.state.name}, ...state.todos]
-        }))
-
         axios
         .post("api/todos",{
             name: this.state.name
+        })
+        .then(res => {
+            this.setState(state => ({
+                todos: [ {_id: res.data._id, name: this.state.name}, ...state.todos]
+            }))
         })
     }
     this.setState({name: ''});
   }
 
   onDeleteClick = (_id) => {
-      axios.delete(`api/todos/${_id}`)
-      this.setState( state => ({
+    this.setState( state => ({
         todos: state.todos.filter(todo =>(todo._id !== _id))
     }))
+      axios.delete(`api/todos/${_id}`)
   }
 
     render() {
@@ -62,24 +63,30 @@ class TodoList extends Component {
                     >Submit</Button>
                 </Form>
 
+                    <ListGroup className="mt-5">
+                    <TransitionGroup>
+                        {
+                            todos.map(({ _id, name }) => (
+                            <CSSTransition key={_id} timeout={500} classNames="my-node">
+                                <ListGroupItem  >
+                                <Button
+                                className="btn1" 
+                                color="danger"
+                                size="sm"
+                                onClick={ 
+                                            this.onDeleteClick.bind(this, _id)
+                                }
+                                >&times;
+                                </Button>&nbsp;&nbsp;{name}
+                                </ListGroupItem>
+                            </CSSTransition>
+                            
+                            ))
+                        }
+                    </TransitionGroup>
+                    </ListGroup>
 
-                <ListGroup className="mt-5">
-                     {
-                         todos.map(({ _id, name }) => (
-                         <ListGroupItem  key={_id}>
-                             <Button
-                              className="btn1" 
-                              color="danger"
-                              size="sm"
-                              onClick={ 
-                                        this.onDeleteClick.bind(this, _id)
-                              }
-                             >&times;
-                             </Button>&nbsp;&nbsp;{name}
-                             </ListGroupItem>
-                         ))
-                     }
-                </ListGroup>
+                
             </div>
         )
     }

@@ -7,6 +7,8 @@ body{
     background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+/* #################################################################### */
+
 .btn {
     outline: none;
     border: none;
@@ -61,5 +63,22 @@ body{
   .btn1:active {
       box-shadow: 0 0 #ed7a74;
       top: 6px;
+  }
+  
+  /* ################################################## */
+
+  .my-node-enter {
+    opacity: 0;
+  }
+  .my-node-enter-active {
+    opacity: 1;
+    transition: opacity 700ms ease-in;
+  }
+  .my-node-exit {
+    opacity: 1;
+  }
+  .my-node-exit-active {
+    opacity: 0;
+    transition: opacity 700ms ease-in;
   }
   
