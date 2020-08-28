@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { ListGroup, ListGroupItem, Button, Form, Input, FormGroup } from 'reactstrap';
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 class TodoList extends Component {
 
@@ -24,9 +24,9 @@ class TodoList extends Component {
   
   handleSubmit = (event) => {
     event.preventDefault();
-    // this.setState(state => ({
-    //     todos: [...state.todos, {id: uuidv4(), name: this.state.name}]
-    // }))
+    this.setState(state => ({
+        todos: [ {_id: uuidv4(), name: this.state.name}, ...state.todos]
+    }))
     axios
     .post("api/todos",{
         name: this.state.name
@@ -34,8 +34,11 @@ class TodoList extends Component {
     this.setState({name: ''});
   }
 
-  onDeleteClick = (id) => {
-      axios.delete(`api/todos/${id}`)
+  onDeleteClick = (_id) => {
+      axios.delete(`api/todos/${_id}`)
+      this.setState( state => ({
+        todos: state.todos.filter(todo =>(todo._id !== _id))
+    }))
   }
 
     render() {
