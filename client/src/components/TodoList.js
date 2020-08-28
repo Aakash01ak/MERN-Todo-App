@@ -26,6 +26,7 @@ class TodoList extends Component {
     event.preventDefault();
 
     if(this.state.name){
+
         axios
         .post("api/todos",{
             name: this.state.name
@@ -33,10 +34,12 @@ class TodoList extends Component {
         .then(res => {
             this.setState(state => ({
                 todos: [ {_id: res.data._id, name: this.state.name}, ...state.todos]
-            }))
+            })) 
         })
     }
-    this.setState({name: ''});
+    setTimeout(() => {
+        this.setState({name: ''});
+    }, 500)
   }
 
   onDeleteClick = (_id) => {
