@@ -39,7 +39,7 @@ class TodoList extends Component {
     }
     setTimeout(() => {
         this.setState({name: ''});
-    }, 500)
+    }, 700)
   }
 
   onDeleteClick = (_id) => {
