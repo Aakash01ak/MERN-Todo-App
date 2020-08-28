@@ -24,13 +24,17 @@ class TodoList extends Component {
   
   handleSubmit = (event) => {
     event.preventDefault();
-    this.setState(state => ({
-        todos: [ {_id: uuidv4(), name: this.state.name}, ...state.todos]
-    }))
-    axios
-    .post("api/todos",{
-        name: this.state.name
-    })
+
+    if(this.state.name){
+        this.setState(state => ({
+            todos: [ {_id: uuidv4(), name: this.state.name}, ...state.todos]
+        }))
+
+        axios
+        .post("api/todos",{
+            name: this.state.name
+        })
+    }
     this.setState({name: ''});
   }
 
@@ -51,6 +55,7 @@ class TodoList extends Component {
                     <Input type="text" value={this.state.name} onChange={this.handleChange} placeholder="Enter a todo"/>
                     </FormGroup>
                     <Button 
+                    className="btn"
                     color="success" 
                     size="md" 
                     block
@@ -62,14 +67,15 @@ class TodoList extends Component {
                      {
                          todos.map(({ _id, name }) => (
                          <ListGroupItem  key={_id}>
-                             <Button 
+                             <Button
+                              className="btn1" 
                               color="danger"
                               size="sm"
                               onClick={ 
                                         this.onDeleteClick.bind(this, _id)
                               }
                              >&times;
-                             </Button>&nbsp;{name}
+                             </Button>&nbsp;&nbsp;{name}
                              </ListGroupItem>
                          ))
                      }

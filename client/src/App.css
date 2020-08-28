@@ -5,6 +5,61 @@ body{
     background: #FF5F6D;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
 }
+
+.btn {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    /* background: #fcad26; */
+    font-size: 16px;
+    font-weight: 300;
+      color: white;
+    text-transform: uppercase;
+      letter-spacing: 2px;
+    padding: 25px 80px;
+    margin: 0 auto;
+      box-shadow: 0 6px #71b347;
+    border-radius: 20px;
+  }
+  
+  .btn:hover {
+      box-shadow: 0 4px #71b347;
+      top: 2px;
+  }
+  
+  .btn:active {
+      box-shadow: 0 0 #71b347;
+      top: 6px;
+  }
+
+  .btn1 {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    /* background: #fcad26; */
+    font-size: 16px;
+    font-weight: 300;
+      color: white;
+    text-transform: uppercase;
+      letter-spacing: 2px;
+    padding: 25px 80px;
+    margin: 0 auto;
+      box-shadow: 0 6px #ed7a74;
+    border-radius: 20px;
+  }
+  
+  .btn1:hover {
+      box-shadow: 0 4px #ed7a74;
+      top: 2px;
+  }
+  
+  .btn1:active {
+      box-shadow: 0 0 #ed7a74;
+      top: 6px;
+  }
+  
