@@ -9,7 +9,7 @@ body{
 
 /* #################################################################### */
 
-.btn {
+.btn1 {
     outline: none;
     border: none;
     cursor: pointer;
@@ -27,17 +27,17 @@ body{
     border-radius: 20px;
   }
   
-  .btn:hover {
+  .btn1:hover {
       box-shadow: 0 4px #71b347;
       top: 2px;
   }
   
-  .btn:active {
+  .btn1:active {
       box-shadow: 0 0 #71b347;
       top: 6px;
   }
 
-  .btn1 {
+  .btn2 {
     outline: none;
     border: none;
     cursor: pointer;
@@ -55,12 +55,12 @@ body{
     border-radius: 20px;
   }
   
-  .btn1:hover {
+  .btn2:hover {
       box-shadow: 0 4px #ed7a74;
       top: 2px;
   }
   
-  .btn1:active {
+  .btn2:active {
       box-shadow: 0 0 #ed7a74;
       top: 6px;
   }

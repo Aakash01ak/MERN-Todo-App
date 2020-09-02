@@ -2,20 +2,35 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { ListGroup, ListGroupItem, Button, Form, Input, FormGroup } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { withRouter } from "react-router-dom";
 
 class TodoList extends Component {
 
-       state = {
-        todos: [],
-        name: ''
+    constructor(props){
+        super(props);
+        this.state = {
+            todos: [],
+            name: ''
+        }
     }
-
+       
     componentDidMount(){
+     axios.defaults.headers.common['Authentication'] = localStorage.getItem('jwtToken');
+
      axios.get("api/todos")
      .then(res => {
          this.setState({ todos: res.data})
      })
+     .catch((error) => {
+          this.props.history.push("/login");
+      })
     }
+
+    // logout = () => {
+    //     localStorage.removeItem('jwtToken');
+    //     this.props.history.push("/login")
+    //     window.location.reload();
+    //   }
 
    handleChange = (event) => {
     this.setState({name: event.target.value});
@@ -26,20 +41,20 @@ class TodoList extends Component {
     event.preventDefault();
 
     if(this.state.name){
-
+    const temp = this.state.name;
         axios
         .post("api/todos",{
             name: this.state.name
         })
         .then(res => {
             this.setState(state => ({
-                todos: [ {_id: res.data._id, name: this.state.name}, ...state.todos]
+                todos: [ {_id: res.data._id, name: temp}, ...state.todos]
             })) 
         })
     }
-    setTimeout(() => {
-        this.setState({name: ''});
-    }, 600)
+    
+    this.setState({name: ''});
+
   }
 
   onDeleteClick = (_id) => {
@@ -53,13 +68,17 @@ class TodoList extends Component {
         const { todos } = this.state;
         return (
             <div>
-                
+
+                {/* {
+                localStorage.getItem('jwtToken') &&
+                    <button className="btn btn-primary" onClick={this.logout}>Logout</button>
+                } */}
                 <Form onSubmit={this.handleSubmit}>
                     <FormGroup>
                     <Input type="text" value={this.state.name} onChange={this.handleChange} placeholder="Enter a todo"/>
                     </FormGroup>
                     <Button 
-                    className="btn"
+                    className="btn1"
                     color="success" 
                     size="md" 
                     block
@@ -73,7 +92,7 @@ class TodoList extends Component {
                             <CSSTransition key={_id} timeout={500} classNames="my-node">
                                 <ListGroupItem  >
                                 <Button
-                                className="btn1" 
+                                className="btn2" 
                                 color="danger"
                                 size="sm"
                                 onClick={ 
@@ -95,4 +114,4 @@ class TodoList extends Component {
     }
 }
 
-export default TodoList; 
+export default withRouter(TodoList); 

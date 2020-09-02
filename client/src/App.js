@@ -1,19 +1,38 @@
 import React from 'react';
-import { Container } from 'reactstrap'
+import Home from './Home'
 import AppNavbar from './components/AppNavbar'
-import TodoList from './components/TodoList'
+import Register from './components/Register'
+import Login from './components/Login'
+import { Container } from 'reactstrap'
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 function App() {
   return (
     <div>
+      <Router>
         <AppNavbar />
-      <Container>
-        <TodoList />
-      </Container>
+        <Container>
+            <Switch>
+                <Route path="/register">
+                    <Register />
+                </Route>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/">
+                    <Home />
+                </Route>
+            </Switch>
+        </Container>
+        </Router>
     </div>
   );
 }

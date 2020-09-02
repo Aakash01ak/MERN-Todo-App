@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Todo = require("../models/Todos")
+const verify = require('./verifyToken_privateRoute')
 
 //Getting all Todos
 
-router.get('/', async (req,res) =>{
+router.get('/', verify, async (req,res) =>{
     // Todo.find()
     // .then(data => {
     //     res.json(data);
@@ -24,7 +25,7 @@ router.get('/', async (req,res) =>{
 
 // Posting a todo
 
-router.post('/', async (req,res) =>{
+router.post('/',verify, async (req,res) =>{
     const todo = new Todo({
         name: req.body.name
     })
@@ -60,7 +61,7 @@ router.post('/', async (req,res) =>{
 
 //Delete Todo
 
-router.delete("/:id", async (req,res) => {
+router.delete("/:id",verify, async (req,res) => {
     try{
     const removedTodo = await Todo.deleteOne({_id: req.params.id})
     res.status(200).json(removedTodo)
