@@ -75,19 +75,19 @@ router.delete("/:id",verify, async (req,res) => {
 
 // Update Todo
 
-// router.patch('/:id', async (req,res) => {
-//     try{
-//         const updatedTodo = await Todo.updateOne(
-//             { _id: req.params.id},
-//             { $set : {name : req.body.name}
-//         })
-//         res.status(200).json(updatedTodo)
-//     }
-//     catch(err){
-//         res.status(400).json({
-//             message: err
-//         })
-//     }
-// })
+router.patch('/:id', async (req,res) => {
+    try{
+        const updatedTodo = await Todo.updateOne(
+            { _id: req.params.id},
+            { $set : {isCompleted : req.body.isCompleted}
+        })
+        res.status(200).json(updatedTodo)
+    }
+    catch(err){
+        res.status(400).json({
+            message: err
+        })
+    }
+})
 
 module.exports = router;

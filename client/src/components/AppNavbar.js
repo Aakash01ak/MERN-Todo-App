@@ -26,7 +26,7 @@ class AppNavbar extends Component {
    }
 
    logout = () => {
-    localStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('jwtToken');
     this.props.history.push("/login")
     window.location.reload();
   }
@@ -43,7 +43,7 @@ render(){
               <NavLink href="https://github.com/Aakash01ak/MERN-To-Do-App"><h6>GitHub</h6></NavLink>
             </NavItem>
             {
-            localStorage.getItem('jwtToken') 
+            sessionStorage.getItem('jwtToken') 
             ? 
             <NavItem>
             <NavLink onClick={this.logout}><h6>Logout</h6></NavLink>

@@ -10,12 +10,13 @@ class TodoList extends Component {
         super(props);
         this.state = {
             todos: [],
-            name: ''
+            name: '',
+            isCompleted: false
         }
     }
        
     componentDidMount(){
-     axios.defaults.headers.common['Authentication'] = localStorage.getItem('jwtToken');
+     axios.defaults.headers.common['Authentication'] = sessionStorage.getItem('jwtToken');
 
      axios.get("api/todos")
      .then(res => {
@@ -26,16 +27,9 @@ class TodoList extends Component {
       })
     }
 
-    // logout = () => {
-    //     localStorage.removeItem('jwtToken');
-    //     this.props.history.push("/login")
-    //     window.location.reload();
-    //   }
-
    handleChange = (event) => {
-    this.setState({name: event.target.value});
+    this.setState({[event.target.name]: event.target.value});
   }
-
   
   handleSubmit = (event) => {
     event.preventDefault();
@@ -52,9 +46,7 @@ class TodoList extends Component {
             })) 
         })
     }
-    
     this.setState({name: ''});
-
   }
 
   onDeleteClick = (_id) => {
@@ -64,18 +56,26 @@ class TodoList extends Component {
       axios.delete(`api/todos/${_id}`)
   }
 
+  onCompleteClick = (_id, isCompleted) => {
+
+    this.setState(state => ({
+        todos: state.todos.map(todo => (
+            todo._id === _id ? { ...todo, isCompleted : !isCompleted} : todo
+        ))
+    }))
+
+    axios.patch(`api/todos/${_id}`, {
+        isCompleted : !isCompleted
+    }) 
+  }
+
     render() {
         const { todos } = this.state;
         return (
             <div>
-
-                {/* {
-                localStorage.getItem('jwtToken') &&
-                    <button className="btn btn-primary" onClick={this.logout}>Logout</button>
-                } */}
                 <Form onSubmit={this.handleSubmit}>
                     <FormGroup>
-                    <Input type="text" value={this.state.name} onChange={this.handleChange} placeholder="Enter a todo"/>
+                    <Input type="text" name="name" value={this.state.name} onChange={this.handleChange} placeholder="Enter a todo"/>
                     </FormGroup>
                     <Button 
                     className="btn1"
@@ -88,7 +88,7 @@ class TodoList extends Component {
                     <ListGroup className="mt-5">
                     <TransitionGroup>
                         {
-                            todos.map(({ _id, name }) => (
+                            todos.map(({ _id, name, isCompleted }) => (
                             <CSSTransition key={_id} timeout={500} classNames="my-node">
                                 <ListGroupItem  >
                                 <Button
@@ -99,7 +99,17 @@ class TodoList extends Component {
                                             this.onDeleteClick.bind(this, _id)
                                 }
                                 >&times;
-                                </Button>&nbsp;&nbsp;{name}
+                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <Input
+                                type="checkbox"
+                                name="isCompleted"
+                                checked={isCompleted}
+                                onChange={this.handleChange}
+                                onClick={ 
+                                            this.onCompleteClick.bind(this, _id, isCompleted)
+                                }
+                                ></Input>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div style={{textDecoration: isCompleted ? "line-through" : "", display:"inline"}}>{name}</div>
                                 </ListGroupItem>
                             </CSSTransition>
                             
